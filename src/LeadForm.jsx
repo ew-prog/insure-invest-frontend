@@ -1,52 +1,60 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 
 export default function LeadForm() {
-  const [lead, setLead] = useState({ name: '', email: '', phone: '', notes: '' });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" });
 
-  const handleChange = (e) => setLead({ ...lead, [e.target.name]: e.target.value });
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Lead submitted:\n${JSON.stringify(lead, null, 2)}`);
+    alert("Lead submitted!");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
-    >
-      <input
-        name="name"
-        placeholder="Name"
-        onChange={handleChange}
-        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        name="phone"
-        placeholder="Phone"
-        onChange={handleChange}
-        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <textarea
-        name="notes"
-        placeholder="Notes"
-        onChange={handleChange}
-        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <div className="col-span-full flex justify-end">
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">Submit a Lead</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+      >
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="border p-2 rounded-lg"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="border p-2 rounded-lg"
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="border p-2 rounded-lg"
+        />
+        <textarea
+          name="notes"
+          placeholder="Notes"
+          value={formData.notes}
+          onChange={handleChange}
+          className="border p-2 rounded-lg md:col-span-2"
+        />
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow"
+          className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 md:col-span-2"
         >
           Submit Lead
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
