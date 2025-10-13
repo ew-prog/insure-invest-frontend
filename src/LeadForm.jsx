@@ -51,7 +51,7 @@ function LeadForm() {
       </form>
     </div>
     <a
-  href="https://wa.me/256774905936?text=Hello%2C%20I%20am%20interested%20in%20your%20insurance%20services"
+  href="https://wa.me/256774905936?text=Hello let us help you "
   target="_blank"
   rel="noopener noreferrer"
   className="text-green-600 font-bold underline"
