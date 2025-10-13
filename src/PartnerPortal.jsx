@@ -1,18 +1,20 @@
+import React from 'react';
 
-import React from 'react'
-
-function PartnerPortal() {
+export default function PartnerPortal() {
   return (
-    <div className="bg-blue-100 p-4 rounded-lg shadow-md mb-6">
-      <h2 className="text-xl font-semibold mb-2">Partner Portal</h2>
-      <p className="text-gray-700">
-        Access your partner dashboard, track leads, and manage referrals.
-      </p>
-      <button className="mt-3 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Go to Portal
-      </button>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 shadow-sm text-center">
+        <h3 className="font-semibold text-blue-700">Assigned Leads</h3>
+        <p className="text-2xl font-bold mt-2">50</p>
+      </div>
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4 shadow-sm text-center">
+        <h3 className="font-semibold text-green-700">New Leads</h3>
+        <p className="text-2xl font-bold mt-2">10</p>
+      </div>
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 shadow-sm text-center">
+        <h3 className="font-semibold text-yellow-700">Conversion Rate</h3>
+        <p className="text-2xl font-bold mt-2">60%</p>
+      </div>
     </div>
-  )
+  );
 }
-
-export default PartnerPortal
