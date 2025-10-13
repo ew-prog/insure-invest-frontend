@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-export default function PartnerPortal() {
+function PartnerPortal() {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Partner Dashboard</h2>
@@ -8,7 +8,9 @@ export default function PartnerPortal() {
         <div className="bg-white shadow rounded p-4">Assigned Leads: 50</div>
         <div className="bg-white shadow rounded p-4">New Leads: 10</div>
         <div className="bg-white shadow rounded p-4">Conversion Rate: 60%</div>
-      </div>
+      </button>
     </div>
-  );
+  )
 }
+
+export default PartnerPortal
