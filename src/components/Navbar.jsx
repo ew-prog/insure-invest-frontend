@@ -1,14 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-
+// src/Navbar.jsx
 export default function Navbar() {
   return (
-    <nav className="bg-blue-700 text-white p-4 flex justify-between items-center shadow">
-      <h1 className="text-xl font-bold">InsureInvest Leads</h1>
-      <div className="space-x-4">
-        <Link to="/" className="hover:bg-blue-600 px-3 py-2 rounded">Dashboard</Link>
-        <Link to="/leads" className="hover:bg-blue-600 px-3 py-2 rounded">Leads</Link>
-        <Link to="/partner" className="hover:bg-blue-600 px-3 py-2 rounded">Partner Portal</Link>
+    <nav className="bg-blue-700 text-white px-6 py-3 shadow-md">
+      <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">InsureInvest</h1>
+        <div className="space-x-6">
+          <a href="/" className="hover:text-gray-200">Home</a>
+          <a href="#portal" className="hover:text-gray-200">Partner Portal</a>
+          <a href="#leadform" className="hover:text-gray-200">Submit Lead</a>
+          <a href="#leads" className="hover:text-gray-200">Leads Dashboard</a>
+        </div>
       </div>
     </nav>
   );
