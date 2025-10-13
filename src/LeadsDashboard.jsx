@@ -53,5 +53,3 @@ function LeadsDashboard() {
     </div>
   )
 }
-
-export default LeadsDashboard
