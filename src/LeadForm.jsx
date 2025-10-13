@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function LeadForm() {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", notes: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", });
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
