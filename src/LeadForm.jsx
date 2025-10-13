@@ -1,72 +1,52 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 
 export default function LeadForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [notes, setNotes] = useState("");
-  const [message, setMessage] = useState("");
+  const [lead, setLead] = useState({ name: '', email: '', phone: '', notes: '' });
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => setLead({ ...lead, [e.target.name]: e.target.value });
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/leads`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, notes }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setMessage("Lead submitted successfully!");
-        // Clear form
-        setName("");
-        setEmail("");
-        setPhone("");
-        setNotes("");
-      } else {
-        setMessage(data.error || "Submission failed");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("Error submitting lead");
-    }
+    alert(`Lead submitted:\n${JSON.stringify(lead, null, 2)}`);
   };
 
   return (
-    <div>
-      <h2>Submit a Lead</h2>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="tel"
-          placeholder="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Notes"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        />
-        <button type="submit">Submit Lead</button>
-      </form>
-    </div>
+    <form
+      onSubmit={handleSubmit}
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+    >
+      <input
+        name="name"
+        placeholder="Name"
+        onChange={handleChange}
+        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        name="email"
+        placeholder="Email"
+        onChange={handleChange}
+        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        name="phone"
+        placeholder="Phone"
+        onChange={handleChange}
+        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <textarea
+        name="notes"
+        placeholder="Notes"
+        onChange={handleChange}
+        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <div className="col-span-full flex justify-end">
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow"
+        >
+          Submit Lead
+        </button>
+      </div>
+    </form>
   );
 }
