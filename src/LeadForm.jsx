@@ -1,56 +1,72 @@
-import React, { useState } from 'react'
+import { useState } from "react";
 
-function LeadForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+export default function LeadForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [notes, setNotes] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you would send data to backend API
-    alert(`Lead submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`)
-    setName('')
-    setEmail('')
-    setPhone('')
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, notes }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("Lead submitted successfully!");
+        // Clear form
+        setName("");
+        setEmail("");
+        setPhone("");
+        setNotes("");
+      } else {
+        setMessage(data.error || "Submission failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Error submitting lead");
+    }
+  };
 
   return (
-    <div className="bg-green-100 p-4 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-2">Submit a Lead</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+    <div>
+      <h2>Submit a Lead</h2>
+      {message && <p>{message}</p>}
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Full Name"
+          placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="p-2 border rounded"
           required
         />
         <input
           type="email"
-          placeholder="Email Address"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="p-2 border rounded"
           required
         />
         <input
           type="tel"
-          placeholder="Phone Number"
+          placeholder="Phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="p-2 border rounded"
           required
         />
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          Submit Lead
-        </button>
+        <textarea
+          placeholder="Notes"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        />
+        <button type="submit">Submit Lead</button>
       </form>
     </div>
-  )
+  );
 }
-
-export default LeadForm
