@@ -1,60 +1,65 @@
-import { useState } from "react";
+import React, { useState } from 'react'
 
-export default function LeadForm() {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", });
-
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+function LeadForm() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Lead submitted!");
-  };
+    e.preventDefault()
+    // Here you would send data to backend API
+    alert(`Lead submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`)
+    setName('')
+    setEmail('')
+    setPhone('')
+  }
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Submit a Lead</h2>
-      <form
-        onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4"
-      >
+    <div className="bg-green-100 p-4 rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-2">Submit a Lead</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
           type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="border p-2 rounded-lg"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="p-2 border rounded"
+          required
         />
         <input
           type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="border p-2 rounded-lg"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="p-2 border rounded"
+          required
         />
         <input
           type="tel"
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="border p-2 rounded-lg"
-        />
-        <textarea
-          name="notes"
-          placeholder="Notes"
-          value={formData.notes}
-          onChange={handleChange}
-          className="border p-2 rounded-lg md:col-span-2"
+          placeholder="Phone Number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="p-2 border rounded"
+          required
         />
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 md:col-span-2"
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
         >
           Submit Lead
         </button>
       </form>
     </div>
-  );
+    <a
+  href="https://wa.me/256700123456?text=Hello%2C%20I%20am%20interested%20in%20your%20insurance%20services"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-green-600 font-bold underline"
+>
+  Contact us on WhatsApp
+</a>
+
+  )
 }
+
+export default LeadForm
