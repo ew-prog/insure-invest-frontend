@@ -1,57 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 
-function LeadsDashboard() {
-  const [leads, setLeads] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    const fetchLeads = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/leads`)
-        if (!response.ok) throw new Error('Failed to fetch leads')
-        const data = await response.json()
-        setLeads(data)
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchLeads()
-  }, [])
-
-  if (loading) return <p>Loading leads...</p>
-  if (error) return <p className="text-red-500">Error: {error}</p>
+export default function LeadsDashboard() {
+  const leads = [
+    { name: 'Eddy', email: 'ewanyama@gmail.com', phone: '0774905936' },
+  ];
 
   return (
-    <div className="mt-6">
-      <h2 className="text-xl font-semibold mb-2">Leads Dashboard</h2>
-      {leads.length === 0 ? (
-        <p>No leads yet.</p>
-      ) : (
-        <table className="min-w-full border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">Name</th>
-              <th className="px-4 py-2 border">Email</th>
-              <th className="px-4 py-2 border">Phone</th>
+    <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border border-gray-200">
+        <thead className="bg-blue-600 text-white">
+          <tr>
+            <th className="py-2 px-4 text-left">Name</th>
+            <th className="py-2 px-4 text-left">Email</th>
+            <th className="py-2 px-4 text-left">Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leads.map((lead, index) => (
+            <tr
+              key={index}
+              className="border-b hover:bg-gray-50 transition"
+            >
+              <td className="py-2 px-4">{lead.name}</td>
+              <td className="py-2 px-4">{lead.email}</td>
+              <td className="py-2 px-4">{lead.phone}</td>
             </tr>
-          </thead>
-          <tbody>
-            {leads.map((lead, index) => (
-              <tr key={index} className="text-center">
-                <td className="px-4 py-2 border">{lead.name}</td>
-                <td className="px-4 py-2 border">{lead.email}</td>
-                <td className="px-4 py-2 border">{lead.phone}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
     </div>
-  )
+  );
 }
-
-export default LeadsDashboard
