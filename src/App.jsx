@@ -1,23 +1,17 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import LeadsDashboard from './LeadsDashboard';
-import LeadForm from './LeadForm';
-import PartnerPortal from './PartnerPortal';
+import React from 'react'
+import PartnerPortal from './PartnerPortal'
+import LeadForm from './LeadForm'
+import LeadsDashboard from './LeadsDashboard'
 
 function App() {
   return (
-    <Router>
-      <div className="bg-gray-100 min-h-screen">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<LeadsDashboard />} />
-          <Route path="/leads" element={<LeadForm />} />
-          <Route path="/partner" element={<PartnerPortal />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">InsureInvest Leads Platform</h1>
+      <PartnerPortal />
+      <LeadForm />
+      <LeadsDashboard />
+    </div>
+  )
 }
 
-export default App;
+export default App
