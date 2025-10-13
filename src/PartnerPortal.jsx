@@ -1,4 +1,3 @@
-
 import React from 'react'
 
 function PartnerPortal() {
@@ -16,4 +15,3 @@ function PartnerPortal() {
 }
 
 export default PartnerPortal
-
