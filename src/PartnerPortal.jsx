@@ -1,18 +1,35 @@
+import React, { useState } from "react";
+import LeadForm from "./LeadForm";
+import LeadDashboard from "./LeadDashboard";
 
-import React from 'react'
+const PartnerPortal = () => {
+  const [activeTab, setActiveTab] = useState("form");
 
-function PartnerPortal() {
   return (
-    <div className="bg-blue-100 p-4 rounded-lg shadow-md mb-6">
-      <h2 className="text-xl font-semibold mb-2">Partner Portal</h2>
-      <p className="text-gray-700">
-        Access your partner dashboard, track leads, and manage referrals.
-      </p>
-      <button className="mt-3 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Go to Portal
-      </button>
-    </div>
-  )
-}
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h1>InsureInvest Leads Platform</h1>
+      <h2>Partner Portal</h2>
 
-export default PartnerPortal
+      <div style={{ marginBottom: "20px" }}>
+        <button onClick={() => setActiveTab("form")}>Submit a Lead</button>
+        <button onClick={() => setActiveTab("dashboard")}>Lead Dashboard</button>
+      </div>
+
+      {activeTab === "form" && (
+        <div>
+          <h3>Submit a Lead</h3>
+          <LeadForm />
+        </div>
+      )}
+
+      {activeTab === "dashboard" && (
+        <div>
+          <h3>Leads Dashboard</h3>
+          <LeadDashboard />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default PartnerPortal;
