@@ -4,23 +4,38 @@ function LeadForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [status, setStatus] = useState('') // success/error messages
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://insure-invest-backend-1.onrender.com/api/v1/leads'
+
+    if (!apiUrl) {
+      setStatus('Backend URL not set. Contact admin.')
+      return
+    }
+
+    setStatus('Submitting lead...')
+
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, phone }),
       })
+
       if (!response.ok) throw new Error('Failed to submit lead')
-      alert('Lead submitted successfully!')
+
+      const data = await response.json()
+      console.log('Lead submitted:', data)
+      setStatus('✅ Lead submitted successfully!')
       setName('')
       setEmail('')
       setPhone('')
     } catch (err) {
-      alert('Failed to submit lead. Please try again.')
       console.error(err)
+      setStatus('❌ Failed to submit lead. Please try again.')
     }
   }
 
@@ -62,6 +77,12 @@ function LeadForm() {
           Submit Lead
         </button>
       </form>
+
+      {status && (
+        <p className="mt-4 text-center text-sm font-medium text-gray-700">
+          {status}
+        </p>
+      )}
 
       <div className="mt-6 text-center">
         <a
