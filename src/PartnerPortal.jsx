@@ -13,21 +13,6 @@ function PartnerPortal() {
           Submit your leads or contact us for more support.
         </p>
       </div>
-
-      {/* WhatsApp link fixed inside the div */}
-      <div className="mt-6 text-center">
-        <a
-          href={`https://wa.me/256774905936?text=${encodeURIComponent(
-            'Hello let us help you'
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-4 py-2 bg-green-100 text-green-800 font-medium rounded-lg hover:bg-green-200 transition-colors"
-        >
-          Chat on WhatsApp
-        </a>
-      </div>
-    </div>
   )
 }
 
