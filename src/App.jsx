@@ -1,4 +1,5 @@
-import Navbar from "./Navbar";
+// If Navbar.jsx is in src/components/
+import Navbar from "./components/Navbar";
 import LeadForm from "./LeadForm";
 import LeadsDashboard from "./LeadsDashboard";
 import PartnerPortal from "./PartnerPortal";
