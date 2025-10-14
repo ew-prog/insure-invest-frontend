@@ -5,13 +5,23 @@ function LeadForm() {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Send data to backend API here
-    alert(`Lead submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`)
-    setName('')
-    setEmail('')
-    setPhone('')
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone }),
+      })
+      if (!response.ok) throw new Error('Failed to submit lead')
+      alert('Lead submitted successfully!')
+      setName('')
+      setEmail('')
+      setPhone('')
+    } catch (err) {
+      alert('Failed to submit lead. Please try again.')
+      console.error(err)
+    }
   }
 
   return (
