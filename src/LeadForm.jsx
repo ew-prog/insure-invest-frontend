@@ -51,12 +51,12 @@ function LeadForm() {
       </form>
     </div>
     <a
-  href="https://wa.me/256774905936?text=Hello let us help you "
+  href="https://wa.me/256774905936"
   target="_blank"
   rel="noopener noreferrer"
-  className="text-green-600 font-bold underline"
+  className="text-green-600 hover:underline"
 >
-  Contact us on WhatsApp
+  Chat on WhatsApp
 </a>
 
   )
