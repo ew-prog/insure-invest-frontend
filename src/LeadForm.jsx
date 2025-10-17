@@ -1,26 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
 function LeadForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const response = await fetch(import.meta.env.VITE_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, phone }),
       })
-      if (!response.ok) throw new Error('Failed to submit lead')
-      alert('Lead submitted successfully!')
-      setName('')
-      setEmail('')
-      setPhone('')
+
+      if (!response.ok) throw new Error("Failed to submit lead")
+
+      alert("✅ Lead submitted successfully!")
+      setName("")
+      setEmail("")
+      setPhone("")
     } catch (err) {
-      alert('Failed to submit lead. Please try again.')
-      console.error(err)
+      console.error("Submission error:", err)
+      alert("❌ Failed to submit lead. Please try again.")
     }
   }
 
@@ -65,7 +67,7 @@ function LeadForm() {
 
       <div className="mt-6 text-center">
         <a
-          href="https://wa.me/256774905936"
+          href="https://wa.me/256774905936?text=Hello%20let%20us%20help%20you"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block px-4 py-2 bg-green-100 text-green-800 font-medium rounded-lg hover:bg-green-200 transition-colors"
