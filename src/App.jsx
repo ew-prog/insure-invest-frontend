@@ -1,8 +1,31 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import LeadForm from "./LeadForm"
 import PartnerPortal from "./PartnerPortal"
 
 function App() {
+  const [leads, setLeads] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+  // Fetch leads from backend API
+  const fetchLeads = async () => {
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL)
+      if (!response.ok) throw new Error("Failed to fetch leads")
+      const data = await response.json()
+      setLeads(data)
+    } catch (err) {
+      console.error("Error fetching leads:", err)
+      setError("Could not load leads. Please try again later.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchLeads()
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Navbar */}
@@ -66,22 +89,36 @@ function App() {
             <h3 className="text-2xl font-bold text-green-700 mb-4">
               Leads Dashboard
             </h3>
-            <table className="min-w-full border border-gray-200 rounded-lg">
-              <thead className="bg-green-100 text-green-700">
-                <tr>
-                  <th className="p-3 border-b text-left">Name</th>
-                  <th className="p-3 border-b text-left">Email</th>
-                  <th className="p-3 border-b text-left">Phone</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-gray-50">
-                  <td className="p-3 border-b">Eddy</td>
-                  <td className="p-3 border-b">ewanyama@gmail.com</td>
-                  <td className="p-3 border-b">0774905936</td>
-                </tr>
-              </tbody>
-            </table>
+
+            {loading && <p className="text-gray-500">Loading leads...</p>}
+            {error && (
+              <p className="text-red-500 font-medium mt-2">{error}</p>
+            )}
+
+            {!loading && !error && leads.length === 0 && (
+              <p className="text-gray-500">No leads available yet.</p>
+            )}
+
+            {!loading && leads.length > 0 && (
+              <table className="min-w-full border border-gray-200 rounded-lg">
+                <thead className="bg-green-100 text-green-700">
+                  <tr>
+                    <th className="p-3 border-b text-left">Name</th>
+                    <th className="p-3 border-b text-left">Email</th>
+                    <th className="p-3 border-b text-left">Phone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leads.map((lead, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="p-3 border-b">{lead.name}</td>
+                      <td className="p-3 border-b">{lead.email}</td>
+                      <td className="p-3 border-b">{lead.phone}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </section>
       </main>
