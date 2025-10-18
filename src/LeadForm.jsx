@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-function LeadForm({ onAddLead }) {
+function LeadForm({ onSuccess }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/leads`, {
         method: "POST",
@@ -18,22 +19,18 @@ function LeadForm({ onAddLead }) {
       if (!response.ok) throw new Error("Failed to submit lead");
 
       const newLead = await response.json();
-      onAddLead(newLead);
-
-      setName("");
-      setEmail("");
-      setPhone("");
-      alert("✅ Lead submitted successfully!");
+      onSuccess(newLead);
     } catch (err) {
       console.error(err);
       alert("❌ Failed to submit lead. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
       <h2 className="text-xl font-bold text-green-700 mb-4">Submit a Lead</h2>
-
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
@@ -61,9 +58,12 @@ function LeadForm({ onAddLead }) {
         />
         <button
           type="submit"
-          className="bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-colors"
+          disabled={loading}
+          className={`${
+            loading ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"
+          } text-white font-semibold py-3 rounded-lg transition-colors`}
         >
-          Submit Lead
+          {loading ? "Submitting..." : "Submit Lead"}
         </button>
       </form>
 
