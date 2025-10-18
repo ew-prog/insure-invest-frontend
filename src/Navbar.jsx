@@ -1,29 +1,65 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
+
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Partner Portal', path: '/partner-portal' },
+    { name: 'Leads Dashboard', path: '/dashboard' },
+  ]
 
   return (
-    <nav className="bg-green-600 text-white shadow">
-      <div className="container mx-auto flex items-center justify-between p-4">
-        <h1 className="font-bold text-xl">InsureInvest</h1>
+    <nav className="bg-green-700 text-white shadow-md">
+      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-16">
+        {/* Logo / Brand */}
+        <Link to="/" className="text-2xl font-bold tracking-wide">
+          InsureInvest
+        </Link>
 
-        {/* Hamburger button for mobile */}
+        {/* Mobile Menu Button */}
         <button
-          className="sm:hidden block text-white focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-white focus:outline-none"
         >
-          {isOpen ? '✖' : '☰'}
+          {menuOpen ? '✕' : '☰'}
         </button>
 
-        {/* Navigation links */}
-        <div className={`sm:flex flex-col sm:flex-row gap-4 ${isOpen ? 'block' : 'hidden'} sm:block`}>
-          <Link to="/" className="hover:underline">Home</Link>
-          <Link to="/partner-portal" className="hover:underline">Partner Portal</Link>
-          <Link to="/dashboard" className="hover:underline">Leads Dashboard</Link>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex space-x-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`hover:text-yellow-300 transition ${
+                location.pathname === item.path ? 'text-yellow-300 font-semibold' : ''
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-green-600 flex flex-col space-y-2 p-4">
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              onClick={() => setMenuOpen(false)}
+              className={`hover:text-yellow-300 transition ${
+                location.pathname === item.path ? 'text-yellow-300 font-semibold' : ''
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   )
 }
