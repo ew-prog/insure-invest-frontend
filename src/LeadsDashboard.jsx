@@ -7,16 +7,13 @@ function LeadsDashboard() {
 
   useEffect(() => {
     if (!import.meta.env.VITE_API_URL) {
-      setError('Backend URL not set. Check .env or Render environment variables.')
+      setError('Backend URL not set.')
       setLoading(false)
       return
     }
 
     fetch(`${import.meta.env.VITE_API_URL}/api/v1/leads`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Failed to fetch leads: ${res.status}`)
-        return res.json()
-      })
+      .then((res) => res.json())
       .then((data) => setLeads(data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
@@ -24,7 +21,7 @@ function LeadsDashboard() {
 
   return (
     <div className="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-lg shadow border border-gray-200">
-      <h2 className="text-2xl font-bold text-green-700 mb-4">Leads Dashboard</h2>
+      <h2 className="text-2xl sm:text-3xl font-bold text-green-700 mb-4">Leads Dashboard</h2>
 
       {loading ? (
         <p className="text-gray-600">Loading leads...</p>
@@ -45,9 +42,9 @@ function LeadsDashboard() {
             <tbody>
               {leads.map((lead, i) => (
                 <tr key={i} className="border-t hover:bg-green-50">
-                  <td className="p-2">{lead.name}</td>
-                  <td className="p-2">{lead.email}</td>
-                  <td className="p-2">{lead.phone}</td>
+                  <td className="p-2 text-sm sm:text-base">{lead.name}</td>
+                  <td className="p-2 text-sm sm:text-base">{lead.email}</td>
+                  <td className="p-2 text-sm sm:text-base">{lead.phone}</td>
                 </tr>
               ))}
             </tbody>
