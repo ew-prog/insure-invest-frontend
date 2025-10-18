@@ -1,56 +1,41 @@
 import React, { useEffect, useState } from 'react'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
 function LeadsDashboard() {
   const [leads, setLeads] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    if (!import.meta.env.VITE_API_URL) {
-      setError('Backend URL not set.')
-      setLoading(false)
-      return
-    }
+  useEffect(()=>{
+    fetch(`${import.meta.env.VITE_API_URL}/api/v1/leads`,{
+      headers:{ 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    })
+    .then(res=>res.json()).then(setLeads).catch(console.error)
+  },[])
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/v1/leads`)
-      .then((res) => res.json())
-      .then((data) => setLeads(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false))
-  }, [])
+  const filteredLeads = leads.filter(l=>l.name.toLowerCase().includes(search.toLowerCase()) || l.email.toLowerCase().includes(search.toLowerCase()))
+
+  const leadsByDay = leads.reduce((acc, lead)=>{
+    const date = new Date(lead.createdAt).toLocaleDateString()
+    const item = acc.find(a=>a.date===date)
+    if(item) item.count+=1
+    else acc.push({date,count:1})
+    return acc
+  },[])
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-lg shadow border border-gray-200">
-      <h2 className="text-2xl sm:text-3xl font-bold text-green-700 mb-4">Leads Dashboard</h2>
-
-      {loading ? (
-        <p className="text-gray-600">Loading leads...</p>
-      ) : error ? (
-        <p className="text-red-600">Error: {error}</p>
-      ) : leads.length === 0 ? (
-        <p className="text-gray-600">No leads available yet.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 rounded-lg shadow-sm">
-            <thead className="bg-green-100">
-              <tr>
-                <th className="p-2 text-left">Name</th>
-                <th className="p-2 text-left">Email</th>
-                <th className="p-2 text-left">Phone</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leads.map((lead, i) => (
-                <tr key={i} className="border-t hover:bg-green-50">
-                  <td className="p-2 text-sm sm:text-base">{lead.name}</td>
-                  <td className="p-2 text-sm sm:text-base">{lead.email}</td>
-                  <td className="p-2 text-sm sm:text-base">{lead.phone}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+    <div>
+      <input placeholder="Search..." value={search} onChange={e=>setSearch(e.target.value)} />
+      {filteredLeads.length===0 ? <p>No leads</p> :
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+          <tbody>
+            {filteredLeads.map((l,i)=><tr key={i}><td>{l.name}</td><td>{l.email}</td><td>{l.phone}</td></tr>)}
+          </tbody>
+        </table>
+      }
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={leadsByDay}><XAxis dataKey="date"/><YAxis/><Tooltip/><Bar dataKey="count" fill="#16a34a"/></BarChart>
+      </ResponsiveContainer>
     </div>
   )
 }
