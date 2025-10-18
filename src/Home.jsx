@@ -35,10 +35,6 @@ function Home() {
           Leads Dashboard
         </Link>
       </div>
-
-      <footer className="mt-16 text-sm text-gray-500">
-        © {new Date().getFullYear()} InsureInvest. All rights reserved.
-      </footer>
     </div>
   )
 }
