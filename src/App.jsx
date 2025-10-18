@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './Navbar"
+import Navbar from './Navbar'
 import Home from './Home'
 import PartnerPortal from './PartnerPortal'
 import LeadsDashboard from './LeadsDashboard'
@@ -13,7 +13,7 @@ function App() {
         <div className="container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/partner" element={<PartnerPortal />} />
+            <Route path="/partner-portal" element={<PartnerPortal />} />
             <Route path="/dashboard" element={<LeadsDashboard />} />
           </Routes>
         </div>
