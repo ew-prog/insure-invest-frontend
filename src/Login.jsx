@@ -9,11 +9,11 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault()
 
-    // 🔐 Simple static login — later, connect to backend authentication
+    // Simple static authentication for demo
     if (email === 'partner@insureinvest.com' && password === 'password123') {
       localStorage.setItem('token', 'dummy-auth-token')
       alert('Login successful!')
-      navigate('/dashboard') // redirect to dashboard
+      navigate('/dashboard')
     } else {
       alert('Invalid credentials. Try again.')
     }
