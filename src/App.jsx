@@ -1,10 +1,10 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import PartnerPortal from './pages/PartnerPortal'
-import LeadsDashboard from './pages/LeadsDashboard'
-import Login from './pages/Login'
+import Home from './Home'
+import PartnerPortal from './PartnerPortal'
+import LeadsDashboard from './LeadsDashboard'
+import Login from './Login'
 
 // AuthRoute wrapper for protected routes
 const AuthRoute = ({ element }) => {
