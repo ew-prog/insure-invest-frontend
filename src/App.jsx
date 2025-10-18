@@ -6,20 +6,35 @@ import PartnerPortal from './pages/PartnerPortal'
 import LeadsDashboard from './pages/LeadsDashboard'
 import Login from './pages/Login'
 
-function AuthRoute({ children }) {
-  return localStorage.getItem('token') ? children : <Navigate to="/login" />
+// AuthRoute wrapper for protected routes
+const AuthRoute = ({ element }) => {
+  const isAuthenticated = !!localStorage.getItem('token')
+  return isAuthenticated ? element : <Navigate to="/login" replace />
 }
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/partner-portal" element={<AuthRoute><PartnerPortal /></AuthRoute>} />
-        <Route path="/dashboard" element={<AuthRoute><LeadsDashboard /></AuthRoute>} />
-      </Routes>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow p-4">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/partner-portal"
+              element={<AuthRoute element={<PartnerPortal />} />}
+            />
+            <Route
+              path="/dashboard"
+              element={<AuthRoute element={<LeadsDashboard />} />}
+            />
+          </Routes>
+        </main>
+        <footer className="text-center text-gray-500 py-4 border-t mt-6">
+          © {new Date().getFullYear()} InsureInvest. All rights reserved.
+        </footer>
+      </div>
     </Router>
   )
 }
