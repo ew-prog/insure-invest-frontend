@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom'
 function Home() {
   return (
     <div className="flex flex-col items-center justify-center text-center py-16 px-4 bg-gradient-to-b from-green-50 to-white min-h-screen">
-      <h1 className="text-4xl font-bold text-green-700 mb-4">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 mb-4">
         Welcome to InsureInvest
       </h1>
-      <p className="text-lg text-gray-700 mb-8 max-w-xl">
+      <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 max-w-xl">
         Your one-stop platform to manage, track, and submit insurance and
         investment leads seamlessly. Empowering agents, brokers, and partners
         to grow together.
       </p>
 
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
         <Link
           to="/partner-portal"
           className="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition-colors"
