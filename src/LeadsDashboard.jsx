@@ -1,5 +1,6 @@
-import React,{useEffect,useState} from 'react'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import React, { useEffect, useState } from 'react'
+// Optional only if you are using charts:
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 function LeadsDashboard(){
   const [leads,setLeads]=useState([])
