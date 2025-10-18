@@ -1,12 +1,16 @@
-import React from 'react';
+import React from 'react'
+import LeadForm from './LeadForm'
 
-const PartnerPortal = () => {
+function PartnerPortal() {
   return (
     <div>
-      <h1>Partner Portal</h1>
-      {/* your portal content here */}
+      <h2 className="text-2xl font-bold text-green-700 mb-4">Partner Portal</h2>
+      <p className="text-gray-700 mb-6">
+        Collaborate with our expert advisors and track client submissions in real time.
+      </p>
+      <LeadForm />
     </div>
-  );
-};
+  )
+}
 
-export default PartnerPortal;
+export default PartnerPortal
