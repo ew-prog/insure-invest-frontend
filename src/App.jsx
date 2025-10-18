@@ -1,21 +1,26 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Navbar from './Navbar'
-import Home from './Home'
-import PartnerPortal from './PartnerPortal'
-import LeadsDashboard from './LeadsDashboard'
+import Navbar from './Navbar.jsx'
+import Home from './Home.jsx'
+import PartnerPortal from './PartnerPortal.jsx'
+import LeadsDashboard from './LeadsDashboard.jsx'
 import Login from './Login.jsx'
 
+// ✅ AuthRoute component to protect private routes
 function AuthRoute({ children }) {
-  return localStorage.getItem('token') ? children : <Navigate to="/login" />
+  const isAuthenticated = localStorage.getItem('token')
+  return isAuthenticated ? children : <Navigate to="/login" replace />
 }
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 text-gray-900">
+      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+        {/* ✅ Navbar always visible */}
         <Navbar />
-        <div className="container mx-auto px-4 py-6">
+
+        {/* ✅ Main Content Area */}
+        <main className="flex-grow container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -36,9 +41,11 @@ function App() {
               }
             />
           </Routes>
-        </div>
-        <footer className="text-center py-4 border-t mt-8 text-sm text-gray-600">
-          © 2025 InsureInvest. All rights reserved.
+        </main>
+
+        {/* ✅ Single consistent footer */}
+        <footer className="text-center py-4 border-t text-sm text-gray-600">
+          © {new Date().getFullYear()} InsureInvest. All rights reserved.
         </footer>
       </div>
     </Router>
