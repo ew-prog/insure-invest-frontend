@@ -7,7 +7,7 @@ function LeadsDashboard() {
 
   useEffect(() => {
     if (!import.meta.env.VITE_API_URL) {
-      setError('Backend URL not set. Please check your .env or Render environment variables.')
+      setError('Backend URL not set. Check .env or Render environment variables.')
       setLoading(false)
       return
     }
