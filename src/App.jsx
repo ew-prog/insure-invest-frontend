@@ -4,7 +4,7 @@ import Navbar from './Navbar'
 import Home from './Home'
 import PartnerPortal from './PartnerPortal'
 import LeadsDashboard from './LeadsDashboard'
-import Login from './Login'
+import Login from './Login.jsx'
 
 function AuthRoute({ children }) {
   return localStorage.getItem('token') ? children : <Navigate to="/login" />
