@@ -19,35 +19,40 @@ function InsuranceMenu() {
     product: '',
   })
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState({ text: '', type: '' })
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setMessage('')
+    setMessage({ text: '', type: '' })
+
+    const payload = {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      company: form.company,
+      product: form.product || selected.name,
+    }
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/v1/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          company: form.company,
-          product: form.product || selected.name,
-        }),
+        body: JSON.stringify(payload),
       })
 
       if (!response.ok) throw new Error('Failed to submit lead')
 
-      setMessage(`✅ Thank you, ${form.name}! Your request for ${form.product || selected.name} has been received.`)
+      setMessage({
+        text: `✅ Thank you, ${form.name}! Your request for ${payload.product} has been received.`,
+        type: 'success',
+      })
       setForm({ name: '', email: '', phone: '', company: '', product: '' })
     } catch (error) {
       console.error(error)
-      setMessage('❌ Error submitting form. Please check backend or network.')
+      setMessage({ text: '❌ Error submitting form. Please check backend or network.', type: 'error' })
     } finally {
       setLoading(false)
     }
@@ -63,7 +68,7 @@ function InsuranceMenu() {
           <button
             key={item.name}
             onClick={() => setSelected(item)}
-            className={`px-4 py-2 rounded-full font-semibold whitespace-nowrap transition ${
+            className={`px-4 py-2 rounded-full font-semibold whitespace-nowrap transition flex-shrink-0 ${
               selected.name === item.name
                 ? 'bg-green-700 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-green-600 hover:text-white'
@@ -125,7 +130,7 @@ function InsuranceMenu() {
 
         <input
           type="text"
-          placeholder="Product or 'Any other product'"
+          placeholder="Product (or 'Any other product')"
           value={form.product}
           onChange={(e) => setForm({ ...form, product: e.target.value })}
           className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
@@ -144,8 +149,15 @@ function InsuranceMenu() {
         </button>
       </form>
 
-      {message && (
-        <p className="text-center mt-4 font-medium text-green-700">{message}</p>
+      {/* Feedback Message */}
+      {message.text && (
+        <p
+          className={`mt-4 text-center font-medium ${
+            message.type === 'success' ? 'text-green-700' : 'text-red-600'
+          }`}
+        >
+          {message.text}
+        </p>
       )}
     </div>
   )
