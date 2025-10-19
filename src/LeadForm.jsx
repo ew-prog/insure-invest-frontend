@@ -18,7 +18,7 @@ function LeadForm() {
       email,
       phone,
       insuranceCompany,
-      product: product || otherProduct, // use otherProduct if product is empty
+      product: product || otherProduct,
     }
 
     try {
@@ -31,12 +31,7 @@ function LeadForm() {
       if (!response.ok) throw new Error('Failed to submit lead')
 
       alert('Lead submitted successfully!')
-      setName('')
-      setEmail('')
-      setPhone('')
-      setInsuranceCompany('')
-      setProduct('')
-      setOtherProduct('')
+      setName(''); setEmail(''); setPhone(''); setInsuranceCompany(''); setProduct(''); setOtherProduct('')
     } catch (err) {
       console.error(err)
       alert('Submission failed. Check backend connection or .env settings.')
@@ -45,38 +40,11 @@ function LeadForm() {
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-200">
-      <h3 className="text-xl font-bold text-green-700 mb-4">Submit a Lead</h3>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="p-3 border rounded focus:ring-2 focus:ring-green-400"
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="p-3 border rounded focus:ring-2 focus:ring-green-400"
-          required
-        />
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="p-3 border rounded focus:ring-2 focus:ring-green-400"
-          required
-        />
-        <select
-          value={insuranceCompany}
-          onChange={(e) => setInsuranceCompany(e.target.value)}
-          className="p-3 border rounded focus:ring-2 focus:ring-green-400"
-          required
-        >
+        <input type="text" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required />
+        <input type="email" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required />
+        <input type="tel" placeholder="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required />
+        <select value={insuranceCompany} onChange={e => setInsuranceCompany(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required>
           <option value="">Select Insurance Company</option>
           <option>OldMutual</option>
           <option>Sanlam</option>
@@ -89,24 +57,9 @@ function LeadForm() {
           <option>AAR</option>
           <option>Any</option>
         </select>
-        <input
-          type="text"
-          placeholder="Product (e.g., Life Insurance, Motor)"
-          value={product}
-          onChange={(e) => setProduct(e.target.value)}
-          className="p-3 border rounded focus:ring-2 focus:ring-green-400"
-        />
-        <input
-          type="text"
-          placeholder="Any Other Product"
-          value={otherProduct}
-          onChange={(e) => setOtherProduct(e.target.value)}
-          className="p-3 border rounded focus:ring-2 focus:ring-green-400"
-        />
-        <button
-          type="submit"
-          className="bg-green-600 text-white py-3 rounded hover:bg-green-700 transition"
-        >
+        <input type="text" placeholder="Product" value={product} onChange={e => setProduct(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" />
+        <input type="text" placeholder="Any Other Product" value={otherProduct} onChange={e => setOtherProduct(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" />
+        <button type="submit" className="bg-green-600 text-white py-3 rounded hover:bg-green-700 transition">
           Book a Call
         </button>
       </form>
