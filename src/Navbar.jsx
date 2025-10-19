@@ -3,13 +3,8 @@ import { Link } from 'react-router-dom'
 
 function Navbar() {
   return (
-    <nav className="bg-green-700 text-white p-4 flex justify-between">
-      {/* Brand */}
-      <div className="font-bold text-xl">
-        <Link to="/">InsureInvest</Link>
-      </div>
-
-      {/* Links */}
+    <nav className="bg-green-700 text-white p-4 flex justify-between items-center">
+      <div className="font-bold text-xl">InsureInvest</div>
       <div className="space-x-4">
         <Link to="/" className="hover:underline">
           Home
