@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
-export default function LeadFormPage() {
+export default function LeadForm() {
   const [form, setForm] = useState({
     name: "",
     email: "",
