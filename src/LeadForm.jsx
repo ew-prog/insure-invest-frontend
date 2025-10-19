@@ -22,6 +22,7 @@ export default function LeadForm() {
     setMessage("");
 
     try {
+      console.log("Submitting form:", form);
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -37,7 +38,7 @@ export default function LeadForm() {
         setForm({ name: "", email: "", phone: "", company: "InsureInvest", product: "" });
       }
     } catch (error) {
-      console.error(error);
+      console.error("Submit failed:", error);
       setMessage("❌ Error submitting form. Please check your backend or network connection.");
     } finally {
       setLoading(false);
