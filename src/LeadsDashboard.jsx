@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react'
-// ✅ Only keep this line if you have charts below
-// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 function LeadsDashboard() {
   const [leads, setLeads] = useState([])
+  const API_BASE = import.meta.env.VITE_API_BASE_URL
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/v1/leads`)
+    fetch(`${API_BASE}/api/v1/leads`)
       .then((res) => res.json())
       .then((data) => setLeads(data))
-      .catch((err) => console.error('Failed to load leads:', err))
+      .catch((err) => console.error(err))
   }, [])
 
   return (
-    <div>
+    <div className="p-6">
       <h2 className="text-2xl font-bold text-green-700 mb-4">Leads Dashboard</h2>
-
       {leads.length === 0 ? (
         <p className="text-gray-600">No leads available yet.</p>
       ) : (
@@ -25,6 +23,8 @@ function LeadsDashboard() {
               <th className="p-2 text-left">Name</th>
               <th className="p-2 text-left">Email</th>
               <th className="p-2 text-left">Phone</th>
+              <th className="p-2 text-left">Insurance Company</th>
+              <th className="p-2 text-left">Product</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +33,8 @@ function LeadsDashboard() {
                 <td className="p-2">{lead.name}</td>
                 <td className="p-2">{lead.email}</td>
                 <td className="p-2">{lead.phone}</td>
+                <td className="p-2">{lead.insuranceCompany}</td>
+                <td className="p-2">{lead.product}</td>
               </tr>
             ))}
           </tbody>
