@@ -1,29 +1,25 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useParams } from "react-router-dom";
 
-// Detailed product descriptions
 const productDescriptions = {
   "Home Insurance":
-    "Home Insurance protects your property, personal belongings, and valuables against risks such as fire, theft, natural disasters, and accidental damage. Our comprehensive coverage ensures you can recover financially from unexpected events, giving you peace of mind knowing your home and possessions are safe. Policies can be tailored to suit your specific property type and location.",
-  
+    "Home Insurance protects your property, personal belongings, and valuables against risks such as fire, theft, natural disasters, and accidental damage. Policies can be tailored to suit your specific property type and location.",
   "Life Insurance":
-    "Life Insurance provides financial security for your loved ones in the event of an untimely death. It helps cover living expenses, mortgage payments, education fees, and other financial obligations, ensuring your family’s lifestyle and future plans remain uninterrupted. Flexible policy options allow you to choose coverage that fits your long-term financial goals.",
-  
+    "Life Insurance provides financial security for your loved ones in the event of an untimely death. It helps cover living expenses, mortgage payments, education fees, and other financial obligations.",
   "Motor Insurance":
-    "Motor Insurance protects your vehicle against accidental damage, theft, fire, and third-party liabilities. Our plans offer comprehensive coverage, including roadside assistance, replacement vehicle options, and claims support, so you can drive confidently. You can customize your coverage based on your car type and usage.",
-  
+    "Motor Insurance protects your vehicle against accidental damage, theft, fire, and third-party liabilities. Comprehensive coverage ensures peace of mind while driving.",
   "Travel Insurance":
-    "Travel Insurance provides protection during both local and international trips. Coverage includes medical emergencies, trip cancellations, lost luggage, flight delays, and personal liability. This ensures you can travel with confidence, knowing you are financially protected against unforeseen events that could disrupt your travel plans.",
-  
+    "Travel Insurance provides protection during local and international trips. Coverage includes medical emergencies, trip cancellations, lost luggage, flight delays, and personal liability.",
   "Medical Insurance":
-    "Medical Insurance guarantees access to quality healthcare services when you need them most. Coverage includes hospitalization, consultations, surgeries, prescriptions, and preventive care. Our plans are designed to minimize your out-of-pocket medical costs and ensure that you and your family receive timely, professional healthcare.",
-  
+    "Medical Insurance ensures access to quality healthcare services when you need them most. Coverage includes hospitalization, consultations, surgeries, and preventive care.",
   "Unit Trust Funds":
-    "Unit Trust Funds allow you to invest in a diversified portfolio of assets, managed by professional fund managers. They provide a simple and flexible way to grow your wealth over time while spreading risk. Whether you are a beginner or an experienced investor, our funds offer options tailored to your risk profile, investment goals, and financial planning needs."
+    "Unit Trust Funds allow you to invest in a diversified portfolio of assets, managed by professional fund managers. Grow your wealth over time with flexible investment options.",
 };
 
-export default function ProductPage({ productName }) {
+export default function ProductPage() {
+  const { productName } = useParams();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -31,7 +27,6 @@ export default function ProductPage({ productName }) {
     insuranceCo: "",
     product: productName || "",
   });
-
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -69,25 +64,13 @@ export default function ProductPage({ productName }) {
           }),
         }
       );
-
-      let data;
-      try {
-        data = await response.json();
-      } catch {
-        data = {};
-      }
+      const data = await response.json();
 
       if (!response.ok) {
         setMessage(data.message || "❌ Error submitting form");
       } else {
         setMessage("✅ Lead submitted successfully!");
-        setForm({
-          name: "",
-          email: "",
-          phone: "",
-          insuranceCo: "",
-          product: productName || "",
-        });
+        setForm({ name: "", email: "", phone: "", insuranceCo: "", product: productName });
       }
     } catch (error) {
       console.error("Submit failed:", error);
@@ -102,17 +85,10 @@ export default function ProductPage({ productName }) {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <Navbar />
-
       <main className="flex-grow flex flex-col items-center justify-center p-6">
-        {/* Product Header */}
-        <h2
-          className="text-3xl font-bold mb-4 text-center"
-          style={{ color: "#007847" }}
-        >
+        <h2 className="text-3xl font-bold mb-4 text-center text-[#007847]">
           {productName} Lead Form
         </h2>
-
-        {/* Product Description */}
         <p className="mb-6 text-center text-gray-700 max-w-lg">
           {productDescriptions[productName]}
           <br />
@@ -123,14 +99,11 @@ export default function ProductPage({ productName }) {
           </span>
         </p>
 
-        {/* Lead Form */}
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full"
         >
-          <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
-            Name
-          </label>
+          <label className="block mb-1 font-semibold text-[#00843D]">Name</label>
           <input
             type="text"
             name="name"
@@ -140,9 +113,7 @@ export default function ProductPage({ productName }) {
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#007847]"
           />
 
-          <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
-            Email
-          </label>
+          <label className="block mb-1 font-semibold text-[#00843D]">Email</label>
           <input
             type="email"
             name="email"
@@ -152,9 +123,7 @@ export default function ProductPage({ productName }) {
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#007847]"
           />
 
-          <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
-            Phone No
-          </label>
+          <label className="block mb-1 font-semibold text-[#00843D]">Phone No</label>
           <input
             type="tel"
             name="phone"
@@ -164,9 +133,7 @@ export default function ProductPage({ productName }) {
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#007847]"
           />
 
-          <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
-            Insurance Company
-          </label>
+          <label className="block mb-1 font-semibold text-[#00843D]">Insurance Company</label>
           <select
             name="insuranceCo"
             value={form.insuranceCo}
@@ -176,9 +143,7 @@ export default function ProductPage({ productName }) {
           >
             <option value="">Select company</option>
             {insuranceCompanies.map((co) => (
-              <option key={co} value={co}>
-                {co}
-              </option>
+              <option key={co} value={co}>{co}</option>
             ))}
           </select>
 
@@ -191,17 +156,12 @@ export default function ProductPage({ productName }) {
           </button>
 
           {message && (
-            <p
-              className={`mt-4 text-center ${
-                message.includes("✅") ? "text-green-700" : "text-red-600"
-              }`}
-            >
+            <p className={`mt-4 text-center ${message.includes("✅") ? "text-green-700" : "text-red-600"}`}>
               {message}
             </p>
           )}
         </form>
 
-        {/* Photo Section */}
         <div className="mt-8 w-full max-w-md flex justify-center">
           <img
             src="https://via.placeholder.com/350x150.png?text=Insurance+Image"
@@ -210,7 +170,6 @@ export default function ProductPage({ productName }) {
           />
         </div>
       </main>
-
       <Footer />
     </div>
   );
