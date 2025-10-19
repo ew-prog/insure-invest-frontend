@@ -2,22 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 function LeadsDashboard() {
   const [leads, setLeads] = useState([])
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+  const API_BASE = import.meta.env.VITE_API_BASE_URL
 
   useEffect(() => {
-    const fetchLeads = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/v1/leads`)
-        if (!res.ok) throw new Error('Failed to fetch leads')
-        const data = await res.json()
-        setLeads(data)
-      } catch (err) {
-        console.error('Error fetching leads:', err)
-      }
-    }
-
-    fetchLeads()
-  }, [API_BASE])
+    fetch(`${API_BASE}/api/v1/leads`)
+      .then((res) => res.json())
+      .then((data) => setLeads(data))
+      .catch((err) => console.error(err))
+  }, [])
 
   return (
     <div className="p-6">
@@ -41,7 +33,7 @@ function LeadsDashboard() {
                 <td className="p-2">{lead.name}</td>
                 <td className="p-2">{lead.email}</td>
                 <td className="p-2">{lead.phone}</td>
-                <td className="p-2">{lead.company || lead.insuranceCompany}</td>
+                <td className="p-2">{lead.insuranceCompany}</td>
                 <td className="p-2">{lead.product}</td>
               </tr>
             ))}
