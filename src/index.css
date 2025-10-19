@@ -1,3 +1,38 @@
+/* Tailwind base, components, utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Optional: custom global styles */
+body {
+  @apply bg-gray-50 text-gray-900 font-sans;
+  margin: 0;
+  padding: 0;
+}
+
+/* Links */
+a {
+  @apply text-green-700 hover:text-green-800 transition;
+}
+
+/* Buttons */
+button {
+  @apply cursor-pointer;
+}
+
+/* Table styles for LeadsDashboard */
+table {
+  @apply border-collapse w-full;
+}
+
+th, td {
+  @apply border border-gray-300 p-2 text-left;
+}
+
+thead {
+  @apply bg-green-100;
+}
+
+tbody tr:nth-child(even) {
+  @apply bg-gray-50;
+}
