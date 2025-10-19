@@ -12,18 +12,50 @@ const insuranceTypes = [
 function InsuranceMenu() {
   const [selected, setSelected] = useState(insuranceTypes[0])
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', company: '', product: '', other: ''
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    product: '',
   })
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
-  const handleSubmit = (e) => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    alert(`✅ Thank you, ${form.name}! We'll contact you soon about ${form.product}.`)
-    setForm({ name: '', email: '', phone: '', company: '', product: '', other: '' })
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          company: form.company,
+          product: form.product || selected.name,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to submit lead')
+
+      setMessage(`✅ Thank you, ${form.name}! Your request for ${form.product || selected.name} has been received.`)
+      setForm({ name: '', email: '', phone: '', company: '', product: '' })
+    } catch (error) {
+      console.error(error)
+      setMessage('❌ Error submitting form. Please check backend or network.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-8">
-      <h2 className="text-2xl font-bold text-primary mb-6 text-center">Insurance Products</h2>
+    <div className="bg-white rounded-xl shadow-md p-8 max-w-3xl mx-auto my-8">
+      <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">Insurance Products</h2>
 
       {/* Horizontal Menu */}
       <div className="flex overflow-x-auto space-x-4 mb-6 pb-2 border-b border-gray-200">
@@ -33,8 +65,8 @@ function InsuranceMenu() {
             onClick={() => setSelected(item)}
             className={`px-4 py-2 rounded-full font-semibold whitespace-nowrap transition ${
               selected.name === item.name
-                ? 'bg-primary text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-accent hover:text-white'
+                ? 'bg-green-700 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-green-600 hover:text-white'
             }`}
           >
             {item.name}
@@ -46,21 +78,36 @@ function InsuranceMenu() {
       <p className="text-gray-700 mb-6 text-center">{selected.desc}</p>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="grid gap-4 max-w-lg mx-auto">
-        <input type="text" placeholder="Full Name" required
-          value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="p-3 border rounded-lg focus:ring-2 focus:ring-primary" />
-        <input type="email" placeholder="Email" required
-          value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="p-3 border rounded-lg focus:ring-2 focus:ring-primary" />
-        <input type="tel" placeholder="Phone Number" required
-          value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          className="p-3 border rounded-lg focus:ring-2 focus:ring-primary" />
+      <form onSubmit={handleSubmit} className="grid gap-4">
+        <input
+          type="text"
+          placeholder="Full Name"
+          required
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          required
+          value={form.phone}
+          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+          className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
+        />
 
         <select
           value={form.company}
           onChange={(e) => setForm({ ...form, company: e.target.value })}
-          className="p-3 border rounded-lg focus:ring-2 focus:ring-primary"
+          className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
           required
         >
           <option value="">Select Insurance Company</option>
@@ -81,13 +128,25 @@ function InsuranceMenu() {
           placeholder="Product or 'Any other product'"
           value={form.product}
           onChange={(e) => setForm({ ...form, product: e.target.value })}
-          className="p-3 border rounded-lg focus:ring-2 focus:ring-primary"
+          className="p-3 border rounded-lg focus:ring-2 focus:ring-green-400"
         />
 
-        <button type="submit" className="bg-primary text-white py-3 rounded-lg font-semibold hover:bg-accent transition">
-          📞 Book a Call
+        <button
+          type="submit"
+          disabled={loading}
+          className={`py-3 rounded-lg font-semibold transition ${
+            loading
+              ? 'bg-gray-400 text-white cursor-not-allowed'
+              : 'bg-green-700 text-white hover:bg-green-800'
+          }`}
+        >
+          {loading ? 'Submitting...' : '📞 Book a Call'}
         </button>
       </form>
+
+      {message && (
+        <p className="text-center mt-4 font-medium text-green-700">{message}</p>
+      )}
     </div>
   )
 }
