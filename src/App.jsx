@@ -2,30 +2,30 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Home from "./Home"; // optional home page component
+import Home from "./Home";
 import ProductPage from "./ProductPage";
 
 export default function App() {
   return (
     <Router>
-      <Navbar />
+      <Navbar /> {/* Only once at top */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:productName" element={<ProductWrapper />} />
       </Routes>
-      <Footer />
+      <Footer /> {/* Only once at bottom */}
     </Router>
   );
 }
 
-// Wrapper component to extract productName from URL
+// Wrapper to extract productName from URL
 function ProductWrapper() {
   const { productName } = useParams();
   const formattedProductName = formatProductName(productName);
-  return <ProductPage productName={formattedProductName} />;
+  return <ProductPage productName={formattedProductName} />; // No Navbar/Footer here
 }
 
-// Optional: format URL-friendly names to readable names
+// Format URL-friendly names to readable names
 function formatProductName(name) {
   switch (name.toLowerCase()) {
     case "unit-trust": return "Unit Trust";
