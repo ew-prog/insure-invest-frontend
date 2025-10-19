@@ -3,15 +3,26 @@ import { Link } from 'react-router-dom'
 
 function Navbar() {
   return (
-    <nav className="bg-primary text-white py-4 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center px-6">
-        <h1 className="text-2xl font-bold">InsureInvest</h1>
-        <div className="space-x-6">
-          <Link to="/" className="hover:text-accent">Home</Link>
-          <Link to="/insurance" className="hover:text-accent">Products</Link>
-          <Link to="/partner-portal" className="hover:text-accent">Partner Portal</Link>
-          <Link to="/dashboard" className="hover:text-accent">Dashboard</Link>
-        </div>
+    <nav className="bg-green-700 text-white p-4 flex justify-between">
+      {/* Brand */}
+      <div className="font-bold text-xl">
+        <Link to="/">InsureInvest</Link>
+      </div>
+
+      {/* Links */}
+      <div className="space-x-4">
+        <Link to="/" className="hover:underline">
+          Home
+        </Link>
+        <Link to="/insurance" className="hover:underline">
+          Insurance
+        </Link>
+        <Link to="/partner-portal" className="hover:underline">
+          Partner Portal
+        </Link>
+        <Link to="/dashboard" className="hover:underline">
+          Leads Dashboard
+        </Link>
       </div>
     </nav>
   )
