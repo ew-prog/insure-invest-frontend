@@ -29,4 +29,4 @@ Features include a public insurance page, partner portal, leads dashboard, authe
 ### Frontend (`.env`)
 
 ```env
-VITE_API_BASE_URL=https://insure-invest-backend.onrender.com
+VITE_API_BASE_URL=https://insure-invest-backend-v2.onrender.com
