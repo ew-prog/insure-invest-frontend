@@ -1,42 +1,49 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
-function Home() {
+export default function Home() {
+  const products = [
+    { name: "Unit Trust", path: "/product/unit-trust" },
+    { name: "Motor Insurance", path: "/product/motor" },
+    { name: "Home Insurance", path: "/product/home" },
+    { name: "Life Insurance", path: "/product/life" },
+    { name: "Travel Insurance", path: "/product/travel" },
+    { name: "Medical Insurance", path: "/product/medical" },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center text-center py-16 px-4 bg-gradient-to-b from-green-50 to-white min-h-screen">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 mb-4">
-        Welcome to InsureInvest
-      </h1>
-      <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 max-w-xl">
-        Your one-stop platform to manage, track, and submit insurance and
-        investment leads seamlessly. Empowering agents, brokers, and partners
-        to grow together.
-      </p>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start">
+      {/* Hero Section */}
+      <section className="bg-white w-full shadow-md py-16 flex flex-col items-center text-center px-6">
+        <h1 className="text-4xl font-bold mb-4" style={{ color: "#007847" }}>
+          Welcome to InsureInvest
+        </h1>
+        <p className="text-lg max-w-2xl" style={{ color: "#00843D" }}>
+          Invest safely and grow your wealth with professional fund management.
+        </p>
+      </section>
 
-      <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-        <Link
-          to="/partner-portal"
-          className="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition-colors"
-        >
-          Partner Portal
-        </Link>
+      {/* Products Quick Links */}
+      <section className="mt-12 w-full flex flex-wrap justify-center gap-6 px-6">
+        {products.map((product) => (
+          <Link
+            key={product.name}
+            to={product.path}
+            className="bg-white shadow-lg rounded-lg px-6 py-4 font-semibold text-lg transition hover:bg-[#007847] hover:text-white"
+          >
+            {product.name}
+          </Link>
+        ))}
+      </section>
 
-        <Link
-          to="/submit-lead"
-          className="bg-green-500 text-white px-6 py-3 rounded-lg shadow hover:bg-green-600 transition-colors"
-        >
-          Submit a Lead
-        </Link>
-
-        <Link
-          to="/dashboard"
-          className="bg-green-100 text-green-700 px-6 py-3 rounded-lg border border-green-300 shadow hover:bg-green-200 transition-colors"
-        >
-          Leads Dashboard
-        </Link>
-      </div>
+      {/* Optional Hero Image */}
+      <section className="mt-12 mb-12 w-full flex justify-center">
+        <img
+          src="https://via.placeholder.com/800x300.png?text=InsureInvest+Hero+Image"
+          alt="InsureInvest"
+          className="rounded-lg shadow-lg"
+        />
+      </section>
     </div>
-  )
+  );
 }
-
-export default Home
