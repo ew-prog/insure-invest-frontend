@@ -10,7 +10,6 @@ export default function LeadForm() {
     company: "InsureInvest",
     product: "",
   });
-
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -28,7 +27,12 @@ export default function LeadForm() {
         body: JSON.stringify(form),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
 
       if (!response.ok) {
         setMessage(data.message || "❌ Error submitting form");
@@ -38,7 +42,7 @@ export default function LeadForm() {
       }
     } catch (error) {
       console.error("Submit failed:", error);
-      setMessage("❌ Error submitting form. Please check your backend or network connection.");
+      setMessage("❌ Error submitting form. Check your backend or network.");
     } finally {
       setLoading(false);
     }
@@ -91,6 +95,7 @@ export default function LeadForm() {
             name="product"
             value={form.product}
             onChange={handleChange}
+            required
             className="w-full p-2 mb-6 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-brand-green"
           >
             <option value="">Select product</option>
