@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
-export default function LeadForm() {
+export default function LeadFormPage() {
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -12,12 +14,10 @@ export default function LeadForm() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -37,7 +37,6 @@ export default function LeadForm() {
         return;
       }
 
-      const data = await response.json();
       setMessage("✅ Lead submitted successfully!");
       setForm({ name: "", email: "", phone: "", company: "InsureInvest", product: "" });
     } catch (error) {
@@ -49,52 +48,75 @@ export default function LeadForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "400px", margin: "0 auto" }}>
-      <h2>Submit Your Lead</h2>
+    <div className="bg-brand-light-green min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow flex items-center justify-center p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full"
+        >
+          <h2 className="text-2xl font-bold text-brand-green mb-6 text-center">
+            Submit Your Lead
+          </h2>
 
-      <label>Name</label>
-      <input
-        type="text"
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        required
-      />
+          <label className="block mb-1 font-semibold">Name</label>
+          <input
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-brand-green"
+          />
 
-      <label>Email</label>
-      <input
-        type="email"
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        required
-      />
+          <label className="block mb-1 font-semibold">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-brand-green"
+          />
 
-      <label>Phone</label>
-      <input
-        type="text"
-        name="phone"
-        value={form.phone}
-        onChange={handleChange}
-        required
-      />
+          <label className="block mb-1 font-semibold">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            value={form.phone}
+            onChange={handleChange}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-brand-green"
+          />
 
-      <label>Product</label>
-      <select name="product" value={form.product} onChange={handleChange}>
-        <option value="">Select product</option>
-        <option value="Home Insurance">Home Insurance</option>
-        <option value="Life Insurance">Life Insurance</option>
-        <option value="Motor Insurance">Motor Insurance</option>
-        <option value="Travel Insurance">Travel Insurance</option>
-        <option value="Medical Insurance">Medical Insurance</option>
-        <option value="Unit Trust Funds">Unit Trust Funds</option>
-      </select>
+          <label className="block mb-1 font-semibold">Product</label>
+          <select
+            name="product"
+            value={form.product}
+            onChange={handleChange}
+            className="w-full p-2 mb-6 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-brand-green"
+          >
+            <option value="">Select product</option>
+            <option value="Home Insurance">Home Insurance</option>
+            <option value="Life Insurance">Life Insurance</option>
+            <option value="Motor Insurance">Motor Insurance</option>
+            <option value="Travel Insurance">Travel Insurance</option>
+            <option value="Medical Insurance">Medical Insurance</option>
+            <option value="Unit Trust Funds">Unit Trust Funds</option>
+          </select>
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Submitting..." : "Submit Lead"}
-      </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-brand-green hover:bg-brand-dark-green text-white font-bold py-2 rounded transition"
+          >
+            {loading ? "Submitting..." : "Submit Lead"}
+          </button>
 
-      {message && <p>{message}</p>}
-    </form>
+          {message && <p className="mt-4 text-center">{message}</p>}
+        </form>
+      </main>
+      <Footer />
+    </div>
   );
 }
