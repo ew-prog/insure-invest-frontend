@@ -21,9 +21,7 @@ export default function LeadForm() {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/leads`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
       });
 
@@ -42,60 +40,80 @@ export default function LeadForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 border rounded">
-      <h2 className="text-xl font-bold mb-4">Submit a Lead</h2>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4">
+      {/* Header */}
+      <header className="w-full max-w-4xl mb-8">
+        <h1 className="text-3xl font-bold text-blue-700">InsureInvest</h1>
+        <p className="text-gray-600 mt-1">Invest safely and grow your wealth with professional fund management.</p>
+      </header>
 
-      <input
-        type="text"
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        placeholder="Name"
-        required
-        className="w-full p-2 mb-2 border rounded"
-      />
-
-      <input
-        type="email"
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        placeholder="Email"
-        required
-        className="w-full p-2 mb-2 border rounded"
-      />
-
-      <input
-        type="text"
-        name="phone"
-        value={form.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-        required
-        className="w-full p-2 mb-2 border rounded"
-      />
-
-      <select
-        name="product"
-        value={form.product}
-        onChange={handleChange}
-        required
-        className="w-full p-2 mb-2 border rounded"
+      {/* Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white shadow-md rounded p-6 space-y-4"
       >
-        <option value="">Select Product</option>
-        <option value="Life Insurance">Life Insurance</option>
-        <option value="Medical Insurance">Medical Insurance</option>
-        <option value="Motor Insurance">Motor Insurance</option>
-        <option value="Travel Insurance">Travel Insurance</option>
-        <option value="Home Insurance">Home Insurance</option>
-        <option value="Unit Trust Funds">Unit Trust Funds</option>
-      </select>
+        <h2 className="text-xl font-semibold text-gray-800">Submit a Lead</h2>
 
-      <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded">
-        Submit
-      </button>
+        <input
+          type="text"
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Full Name"
+          required
+          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
 
-      {status && <p className="mt-2">{status}</p>}
-    </form>
+        <input
+          type="email"
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Email"
+          required
+          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <input
+          type="text"
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          placeholder="Phone Number"
+          required
+          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <select
+          name="product"
+          value={form.product}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="">Select Product</option>
+          <option value="Life Insurance">Life Insurance</option>
+          <option value="Medical Insurance">Medical Insurance</option>
+          <option value="Motor Insurance">Motor Insurance</option>
+          <option value="Travel Insurance">Travel Insurance</option>
+          <option value="Home Insurance">Home Insurance</option>
+          <option value="Unit Trust Funds">Unit Trust Funds</option>
+        </select>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition"
+        >
+          📞 Book a Call
+        </button>
+
+        {status && <p className="text-center mt-2">{status}</p>}
+      </form>
+
+      {/* Footer */}
+      <footer className="mt-12 text-gray-500 text-sm">
+        © 2025 InsureInvest. All rights reserved.
+      </footer>
+    </div>
   );
 }
