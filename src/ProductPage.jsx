@@ -2,8 +2,28 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
+// Detailed product descriptions
+const productDescriptions = {
+  "Home Insurance":
+    "Home Insurance protects your property, personal belongings, and valuables against risks such as fire, theft, natural disasters, and accidental damage. Our comprehensive coverage ensures you can recover financially from unexpected events, giving you peace of mind knowing your home and possessions are safe. Policies can be tailored to suit your specific property type and location.",
+  
+  "Life Insurance":
+    "Life Insurance provides financial security for your loved ones in the event of an untimely death. It helps cover living expenses, mortgage payments, education fees, and other financial obligations, ensuring your family’s lifestyle and future plans remain uninterrupted. Flexible policy options allow you to choose coverage that fits your long-term financial goals.",
+  
+  "Motor Insurance":
+    "Motor Insurance protects your vehicle against accidental damage, theft, fire, and third-party liabilities. Our plans offer comprehensive coverage, including roadside assistance, replacement vehicle options, and claims support, so you can drive confidently. You can customize your coverage based on your car type and usage.",
+  
+  "Travel Insurance":
+    "Travel Insurance provides protection during both local and international trips. Coverage includes medical emergencies, trip cancellations, lost luggage, flight delays, and personal liability. This ensures you can travel with confidence, knowing you are financially protected against unforeseen events that could disrupt your travel plans.",
+  
+  "Medical Insurance":
+    "Medical Insurance guarantees access to quality healthcare services when you need them most. Coverage includes hospitalization, consultations, surgeries, prescriptions, and preventive care. Our plans are designed to minimize your out-of-pocket medical costs and ensure that you and your family receive timely, professional healthcare.",
+  
+  "Unit Trust Funds":
+    "Unit Trust Funds allow you to invest in a diversified portfolio of assets, managed by professional fund managers. They provide a simple and flexible way to grow your wealth over time while spreading risk. Whether you are a beginner or an experienced investor, our funds offer options tailored to your risk profile, investment goals, and financial planning needs."
+};
+
 export default function ProductPage({ productName }) {
-  // Form state
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -15,7 +35,6 @@ export default function ProductPage({ productName }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Insurance companies
   const insuranceCompanies = [
     "Sanlam",
     "Allianz",
@@ -27,10 +46,9 @@ export default function ProductPage({ productName }) {
     "Goldstar",
   ];
 
-  // Handle input changes
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -96,9 +114,13 @@ export default function ProductPage({ productName }) {
 
         {/* Product Description */}
         <p className="mb-6 text-center text-gray-700 max-w-lg">
-          {productName} offers tailored solutions to protect what matters most to you. 
-          To learn more or purchase conveniently, please fill in the form below to schedule 
-          a call with one of our professional advisors.
+          {productDescriptions[productName]}
+          <br />
+          <span className="mt-2 block">
+            To learn more or invest in {productName} at your convenience, please
+            fill in the form below to schedule a call with one of our
+            professional advisors.
+          </span>
         </p>
 
         {/* Lead Form */}
@@ -106,7 +128,6 @@ export default function ProductPage({ productName }) {
           onSubmit={handleSubmit}
           className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full"
         >
-          {/* Name */}
           <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
             Name
           </label>
@@ -119,7 +140,6 @@ export default function ProductPage({ productName }) {
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#007847]"
           />
 
-          {/* Email */}
           <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
             Email
           </label>
@@ -132,7 +152,6 @@ export default function ProductPage({ productName }) {
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#007847]"
           />
 
-          {/* Phone */}
           <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
             Phone No
           </label>
@@ -145,7 +164,6 @@ export default function ProductPage({ productName }) {
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#007847]"
           />
 
-          {/* Insurance Company */}
           <label className="block mb-1 font-semibold" style={{ color: "#00843D" }}>
             Insurance Company
           </label>
@@ -164,7 +182,6 @@ export default function ProductPage({ productName }) {
             ))}
           </select>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -173,7 +190,6 @@ export default function ProductPage({ productName }) {
             {loading ? "Submitting..." : "Book a Call"}
           </button>
 
-          {/* Submission Message */}
           {message && (
             <p
               className={`mt-4 text-center ${
