@@ -1,70 +1,101 @@
-import React, { useState } from 'react'
+import { useState } from "react";
 
-function LeadForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [insuranceCompany, setInsuranceCompany] = useState('')
-  const [product, setProduct] = useState('')
-  const [otherProduct, setOtherProduct] = useState('')
+export default function LeadForm() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    product: ""
+  });
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL
+  const [status, setStatus] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-
-    const payload = {
-      name,
-      email,
-      phone,
-      insuranceCompany,
-      product: product || otherProduct,
-    }
+    e.preventDefault();
+    setStatus("Submitting...");
 
     try {
-      const response = await fetch(`${API_BASE}/api/v1/leads`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/leads`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
 
-      if (!response.ok) throw new Error('Failed to submit lead')
+      if (!response.ok) {
+        const errorData = await response.json();
+        setStatus(`❌ Error: ${errorData.message || response.statusText}`);
+        return;
+      }
 
-      alert('Lead submitted successfully!')
-      setName(''); setEmail(''); setPhone(''); setInsuranceCompany(''); setProduct(''); setOtherProduct('')
-    } catch (err) {
-      console.error(err)
-      alert('Submission failed. Check backend connection or .env settings.')
+      setStatus("✅ Lead submitted successfully!");
+      setForm({ name: "", email: "", phone: "", product: "" });
+
+    } catch (error) {
+      setStatus(`❌ Network or backend error: ${error.message}`);
     }
-  }
+  };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-200">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input type="text" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required />
-        <input type="email" placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required />
-        <input type="tel" placeholder="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required />
-        <select value={insuranceCompany} onChange={e => setInsuranceCompany(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" required>
-          <option value="">Select Insurance Company</option>
-          <option>OldMutual</option>
-          <option>Sanlam</option>
-          <option>Allianz</option>
-          <option>Prudential</option>
-          <option>Britam</option>
-          <option>ICEA General</option>
-          <option>Goldstar</option>
-          <option>Mayfair</option>
-          <option>AAR</option>
-          <option>Any</option>
-        </select>
-        <input type="text" placeholder="Product" value={product} onChange={e => setProduct(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" />
-        <input type="text" placeholder="Any Other Product" value={otherProduct} onChange={e => setOtherProduct(e.target.value)} className="p-3 border rounded focus:ring-2 focus:ring-green-400" />
-        <button type="submit" className="bg-green-600 text-white py-3 rounded hover:bg-green-700 transition">
-          Book a Call
-        </button>
-      </form>
-    </div>
-  )
-}
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 border rounded">
+      <h2 className="text-xl font-bold mb-4">Submit a Lead</h2>
 
-export default LeadForm
+      <input
+        type="text"
+        name="name"
+        value={form.name}
+        onChange={handleChange}
+        placeholder="Name"
+        required
+        className="w-full p-2 mb-2 border rounded"
+      />
+
+      <input
+        type="email"
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+        placeholder="Email"
+        required
+        className="w-full p-2 mb-2 border rounded"
+      />
+
+      <input
+        type="text"
+        name="phone"
+        value={form.phone}
+        onChange={handleChange}
+        placeholder="Phone"
+        required
+        className="w-full p-2 mb-2 border rounded"
+      />
+
+      <select
+        name="product"
+        value={form.product}
+        onChange={handleChange}
+        required
+        className="w-full p-2 mb-2 border rounded"
+      >
+        <option value="">Select Product</option>
+        <option value="Life Insurance">Life Insurance</option>
+        <option value="Medical Insurance">Medical Insurance</option>
+        <option value="Motor Insurance">Motor Insurance</option>
+        <option value="Travel Insurance">Travel Insurance</option>
+        <option value="Home Insurance">Home Insurance</option>
+        <option value="Unit Trust Funds">Unit Trust Funds</option>
+      </select>
+
+      <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded">
+        Submit
+      </button>
+
+      {status && <p className="mt-2">{status}</p>}
+    </form>
+  );
+}
