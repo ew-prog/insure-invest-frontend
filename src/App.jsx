@@ -1,29 +1,26 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Navbar from './Navbar.jsx'
-import Home from './Home.jsx'
-import PartnerPortal from './PartnerPortal.jsx'
-import LeadsDashboard from './LeadsDashboard.jsx'
-import Login from './Login.jsx'
+import Navbar from './Navbar'
+import Home from './Home'
+import PartnerPortal from './PartnerPortal'
+import LeadsDashboard from './LeadsDashboard'
+import Login from './Login'
+import InsuranceMenu from './InsuranceMenu'
 
-// ✅ AuthRoute component to protect private routes
 function AuthRoute({ children }) {
-  const isAuthenticated = localStorage.getItem('token')
-  return isAuthenticated ? children : <Navigate to="/login" replace />
+  return localStorage.getItem('token') ? children : <Navigate to="/login" />
 }
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
-        {/* ✅ Navbar always visible */}
+      <div className="min-h-screen bg-neutral text-gray-900 font-sans">
         <Navbar />
-
-        {/* ✅ Main Content Area */}
-        <main className="flex-grow container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/insurance" element={<InsuranceMenu />} />
             <Route
               path="/partner-portal"
               element={
@@ -41,11 +38,9 @@ function App() {
               }
             />
           </Routes>
-        </main>
-
-        {/* ✅ Single consistent footer */}
-        <footer className="text-center py-4 border-t text-sm text-gray-600">
-          © {new Date().getFullYear()} InsureInvest. All rights reserved.
+        </div>
+        <footer className="text-center py-4 border-t mt-8 text-sm text-gray-600">
+          © 2025 InsureInvest. All rights reserved.
         </footer>
       </div>
     </Router>
