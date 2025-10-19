@@ -2,10 +2,10 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './Navbar'
 import Home from './Home'
+import InsurancePage from './InsurancePage'
 import PartnerPortal from './PartnerPortal'
 import LeadsDashboard from './LeadsDashboard'
 import Login from './Login'
-import InsuranceMenu from './pages/InsuranceMenu'
 
 function AuthRoute({ children }) {
   return localStorage.getItem('token') ? children : <Navigate to="/login" />
@@ -19,8 +19,8 @@ function App() {
         <div className="container mx-auto px-4 py-6">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/insurance" element={<InsurancePage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/insurance" element={<InsuranceMenu />} />
             <Route
               path="/partner-portal"
               element={
