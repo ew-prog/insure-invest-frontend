@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './Navbar'
 import Home from './Home'
-import InsurancePage from './InsurancePage'
+import InsurancePage from './InsuranceMenu' // <--- updated
 import PartnerPortal from './PartnerPortal'
 import LeadsDashboard from './LeadsDashboard'
 import Login from './Login'
