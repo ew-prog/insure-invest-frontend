@@ -6,18 +6,10 @@ function Navbar() {
     <nav className="bg-green-700 text-white p-4 flex justify-between items-center">
       <div className="font-bold text-xl">InsureInvest</div>
       <div className="space-x-4">
-        <Link to="/" className="hover:underline">
-          Home
-        </Link>
-        <Link to="/insurance" className="hover:underline">
-          Insurance
-        </Link>
-        <Link to="/partner-portal" className="hover:underline">
-          Partner Portal
-        </Link>
-        <Link to="/dashboard" className="hover:underline">
-          Leads Dashboard
-        </Link>
+        <Link to="/" className="hover:underline">Home</Link>
+        <Link to="/insurance" className="hover:underline">Insurance</Link>
+        <Link to="/partner-portal" className="hover:underline">Partner Portal</Link>
+        <Link to="/dashboard" className="hover:underline">Leads Dashboard</Link>
       </div>
     </nav>
   )
