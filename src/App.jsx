@@ -5,7 +5,7 @@ import Home from './Home'
 import PartnerPortal from './PartnerPortal'
 import LeadsDashboard from './LeadsDashboard'
 import Login from './Login'
-import InsuranceMenu from './InsuranceMenu'
+import InsuranceMenu from './pages/InsuranceMenu'
 
 function AuthRoute({ children }) {
   return localStorage.getItem('token') ? children : <Navigate to="/login" />
@@ -14,7 +14,7 @@ function AuthRoute({ children }) {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-neutral text-gray-900 font-sans">
+      <div className="min-h-screen bg-gray-50 text-gray-900">
         <Navbar />
         <div className="container mx-auto px-4 py-6">
           <Routes>
