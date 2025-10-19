@@ -19,7 +19,7 @@ Features include a public insurance page, partner portal, leads dashboard, authe
 ## Tech Stack
 
 - **Frontend:** React, Vite, Tailwind CSS, React Router DOM  
-- **Backend:** Node.js / Express (insure-invest-backend)  
+- **Backend:** Node.js / Express (insure-invest-backend-v2)  
 - **Deployment:** Render / Vercel  
 
 ---
