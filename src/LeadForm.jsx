@@ -14,9 +14,7 @@ export default function LeadFormPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,15 +28,14 @@ export default function LeadFormPage() {
         body: JSON.stringify(form),
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        setMessage(data.message || "Error submitting form");
-        setLoading(false);
-        return;
-      }
+      const data = await response.json();
 
-      setMessage("✅ Lead submitted successfully!");
-      setForm({ name: "", email: "", phone: "", company: "InsureInvest", product: "" });
+      if (!response.ok) {
+        setMessage(data.message || "❌ Error submitting form");
+      } else {
+        setMessage("✅ Lead submitted successfully!");
+        setForm({ name: "", email: "", phone: "", company: "InsureInvest", product: "" });
+      }
     } catch (error) {
       console.error(error);
       setMessage("❌ Error submitting form. Please check your backend or network connection.");
@@ -81,7 +78,7 @@ export default function LeadFormPage() {
 
           <label className="block mb-1 font-semibold">Phone</label>
           <input
-            type="text"
+            type="tel"
             name="phone"
             value={form.phone}
             onChange={handleChange}
@@ -113,7 +110,11 @@ export default function LeadFormPage() {
             {loading ? "Submitting..." : "Submit Lead"}
           </button>
 
-          {message && <p className="mt-4 text-center">{message}</p>}
+          {message && (
+            <p className={`mt-4 text-center ${message.includes("✅") ? "text-green-700" : "text-red-600"}`}>
+              {message}
+            </p>
+          )}
         </form>
       </main>
       <Footer />
