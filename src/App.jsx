@@ -1,39 +1,35 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import Home from "./Home";
 import ProductPage from "./ProductPage";
+import Footer from "./Footer";
 
 export default function App() {
   return (
     <Router>
-      <Navbar /> {/* Only once at top */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:productName" element={<ProductWrapper />} />
-      </Routes>
-      <Footer /> {/* Only once at bottom */}
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:productName" element={<ProductPageWrapper />} />
+        </Routes>
+        <Footer />
+      </div>
     </Router>
   );
 }
 
-// Wrapper to extract productName from URL
-function ProductWrapper() {
+// wrapper extracts param and maps to display name
+import { useParams } from "react-router-dom";
+function ProductPageWrapper() {
   const { productName } = useParams();
-  const formattedProductName = formatProductName(productName);
-  return <ProductPage productName={formattedProductName} />; // No Navbar/Footer here
-}
-
-// Format URL-friendly names to readable names
-function formatProductName(name) {
-  switch (name.toLowerCase()) {
-    case "unit-trust": return "Unit Trust";
-    case "motor": return "Motor Insurance";
-    case "home": return "Home Insurance";
-    case "life": return "Life Insurance";
-    case "travel": return "Travel Insurance";
-    case "medical": return "Medical Insurance";
-    default: return name;
-  }
+  const mapName = decodeURIComponent(productName);
+  // you can map slugs to nicer names here if needed
+  const niceName = mapName
+    .replace(/-/g, " ")
+    .split(" ")
+    .map(w => w[0]?.toUpperCase() + w.slice(1))
+    .join(" ");
+  return <ProductPage productName={niceName} />;
 }
