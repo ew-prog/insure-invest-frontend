@@ -1,42 +1,32 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar";
-import Home from "./Home";
-import ProductPage from "./ProductPage";
-import Footer from "./Footer";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import ProductPage from "./pages/ProductPage";
+import LeadsDashboard from "./pages/LeadsDashboard";
 
-export default function App() {
+function App() {
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+        {/* Navbar */}
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:productName" element={<ProductPageWrapper />} />
-        </Routes>
+
+        {/* Main Content */}
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:productName" element={<ProductPage />} />
+            <Route path="/dashboard" element={<LeadsDashboard />} />
+          </Routes>
+        </div>
+
+        {/* Footer */}
         <Footer />
       </div>
     </Router>
   );
 }
-import LeadsDashboard from "./pages/LeadsDashboard";
 
-<Routes>
-  ...
-  <Route path="/dashboard" element={<LeadsDashboard />} />
-</Routes>
-
-
-// wrapper extracts param and maps to display name
-import { useParams } from "react-router-dom";
-function ProductPageWrapper() {
-  const { productName } = useParams();
-  const mapName = decodeURIComponent(productName);
-  // you can map slugs to nicer names here if needed
-  const niceName = mapName
-    .replace(/-/g, " ")
-    .split(" ")
-    .map(w => w[0]?.toUpperCase() + w.slice(1))
-    .join(" ");
-  return <ProductPage productName={niceName} />;
-}
+export default App;
