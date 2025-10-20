@@ -19,6 +19,13 @@ export default function App() {
     </Router>
   );
 }
+import LeadsDashboard from "./pages/LeadsDashboard";
+
+<Routes>
+  ...
+  <Route path="/dashboard" element={<LeadsDashboard />} />
+</Routes>
+
 
 // wrapper extracts param and maps to display name
 import { useParams } from "react-router-dom";
