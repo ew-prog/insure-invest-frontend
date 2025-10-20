@@ -3,149 +3,59 @@ import React, { useEffect, useState } from "react";
 export default function LeadsDashboard() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
 
   const fetchLeads = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/leads`);
       const data = await response.json();
-      setLeads(data);
-    } catch (error) {
-      console.error("Error fetching leads:", error);
-    } finally {
-      setLoading(false);
+      if (data.success) {
+        setLeads(data.leads);
+      } else {
+        alert("Failed to fetch leads");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error. Could not fetch leads.");
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchLeads();
   }, []);
 
-  const filteredLeads = leads
-    .filter((lead) =>
-      filter === "All" ? true : lead.product === filter
-    )
-    .filter(
-      (lead) =>
-        lead.name.toLowerCase().includes(search.toLowerCase()) ||
-        lead.email.toLowerCase().includes(search.toLowerCase()) ||
-        lead.product.toLowerCase().includes(search.toLowerCase())
-    );
-
-  const exportToCSV = () => {
-    const headers = ["Name", "Email", "Phone", "Company", "Product", "Created At"];
-    const rows = filteredLeads.map((lead) => [
-      lead.name,
-      lead.email,
-      lead.phone,
-      lead.company,
-      lead.product,
-      new Date(lead.createdAt).toLocaleString(),
-    ]);
-
-    const csvContent =
-      "data:text/csv;charset=utf-8," +
-      [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
-    const encodedUri = encodeURI(csvContent);
-
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "insureinvest_leads.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const products = [
-    "All",
-    "Home Insurance",
-    "Life Insurance",
-    "Motor Insurance",
-    "Travel Insurance",
-    "Medical Insurance",
-    "Unit Trust Funds",
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Title */}
-      <h2 className="text-3xl font-bold text-center mb-8" style={{ color: "#007847" }}>
-        InsureInvest Leads Dashboard
-      </h2>
+    <div className="container mx-auto px-6 py-12">
+      <h1 className="text-3xl font-bold mb-6">Leads Dashboard</h1>
 
-      {/* Search + Export */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 max-w-6xl mx-auto gap-3">
-        <input
-          type="text"
-          placeholder="🔍 Search by name, email, or product..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg w-full sm:w-1/2 focus:outline-none focus:ring-2 focus:ring-[#007847]"
-        />
-
-        <div className="flex gap-3 mt-2 sm:mt-0">
-          <button
-            onClick={fetchLeads}
-            className="bg-[#007847] hover:bg-[#005c35] text-white px-4 py-2 rounded-lg font-semibold"
-          >
-            Refresh
-          </button>
-          <button
-            onClick={exportToCSV}
-            className="bg-[#00AEEF] hover:bg-[#008FCC] text-white px-4 py-2 rounded-lg font-semibold"
-          >
-            Export CSV
-          </button>
-        </div>
-      </div>
-
-      {/* Product Filter Tabs */}
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
-        {products.map((prod) => (
-          <button
-            key={prod}
-            onClick={() => setFilter(prod)}
-            className={`px-4 py-2 rounded-full border ${
-              filter === prod
-                ? "bg-[#007847] text-white border-[#007847]"
-                : "bg-white text-[#007847] border-[#007847]"
-            } transition`}
-          >
-            {prod}
-          </button>
-        ))}
-      </div>
-
-      {/* Table */}
       {loading ? (
-        <p className="text-center text-gray-600">Loading leads...</p>
-      ) : filteredLeads.length === 0 ? (
-        <p className="text-center text-gray-500">No leads found.</p>
+        <p>Loading leads...</p>
+      ) : leads.length === 0 ? (
+        <p>No leads submitted yet.</p>
       ) : (
-        <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6 max-w-6xl mx-auto">
-          <table className="min-w-full border border-gray-200 text-sm">
-            <thead className="bg-[#007847] text-white">
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
+            <thead className="bg-gray-100">
               <tr>
-                <th className="py-2 px-4 border">Name</th>
-                <th className="py-2 px-4 border">Email</th>
-                <th className="py-2 px-4 border">Phone</th>
-                <th className="py-2 px-4 border">Company</th>
-                <th className="py-2 px-4 border">Product</th>
-                <th className="py-2 px-4 border">Date</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">#</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">Name</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">Email</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">Phone</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">Product</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">ZIP</th>
+                <th className="py-3 px-6 text-left text-sm font-medium text-gray-700">Date</th>
               </tr>
             </thead>
             <tbody>
-              {filteredLeads.map((lead, index) => (
-                <tr key={index} className="hover:bg-gray-100 transition duration-150">
-                  <td className="py-2 px-4 border">{lead.name}</td>
-                  <td className="py-2 px-4 border">{lead.email}</td>
-                  <td className="py-2 px-4 border">{lead.phone}</td>
-                  <td className="py-2 px-4 border">{lead.company}</td>
-                  <td className="py-2 px-4 border">{lead.product}</td>
-                  <td className="py-2 px-4 border">
-                    {new Date(lead.createdAt).toLocaleString()}
-                  </td>
+              {leads.map((lead, index) => (
+                <tr key={lead.id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                  <td className="py-3 px-6 text-sm text-gray-800">{index + 1}</td>
+                  <td className="py-3 px-6 text-sm text-gray-800">{lead.name}</td>
+                  <td className="py-3 px-6 text-sm text-gray-800">{lead.email}</td>
+                  <td className="py-3 px-6 text-sm text-gray-800">{lead.phone}</td>
+                  <td className="py-3 px-6 text-sm text-gray-800">{lead.product}</td>
+                  <td className="py-3 px-6 text-sm text-gray-800">{lead.zip || "-"}</td>
+                  <td className="py-3 px-6 text-sm text-gray-800">{new Date(lead.createdAt).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
