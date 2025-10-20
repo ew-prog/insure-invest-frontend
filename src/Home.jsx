@@ -28,7 +28,7 @@ export default function Home() {
               Invest safely and grow your wealth with professional fund management and trusted insurance partners.
             </p>
 
-            {/* product buttons (like small cards) */}
+            {/* product buttons */}
             <div className="flex flex-wrap gap-3 mb-6">
               {products.map((p) => (
                 <Link
@@ -48,20 +48,24 @@ export default function Home() {
                 onChange={(e) => setProd(e.target.value)}
                 className="rounded-md p-3 w-full sm:w-48 bg-white/10 border border-white/20"
               >
-                {products.map(p => <option key={p.slug} value={p.slug}>{p.label}</option>)}
+                {products.map((p) => (
+                  <option key={p.slug} value={p.slug}>
+                    {p.label}
+                  </option>
+                ))}
               </select>
 
               <input
+                type="text"
                 placeholder="Enter your ZIP code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
-                className="rounded-md p-3 w-full sm:flex-1"
+                className="rounded-md p-3 w-full flex-1"
               />
 
               <Link
                 to={`/product/${encodeURIComponent(prod)}`}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-md font-semibold"
-                onClick={() => {/* could attach analytics */}}
               >
                 Compare quotes →
               </Link>
@@ -76,23 +80,36 @@ export default function Home() {
           {/* right hero image */}
           <div className="w-full lg:w-1/2 flex justify-center">
             <div className="max-w-md w-full relative">
-              <img src="https://via.placeholder.com/520x420.png?text=Hero+Image" alt="hero" className="rounded-lg shadow-2xl" />
-              {/* mock phone overlay */}
+              <img
+                src="https://via.placeholder.com/520x420.png?text=Hero+Image"
+                alt="hero"
+                className="rounded-lg shadow-2xl"
+              />
               <div className="absolute right-0 top-8 hidden md:block">
-                <img src="https://via.placeholder.com/180x360.png?text=Mobile+Mock" alt="phone mock" className="rounded-lg shadow-lg" />
+                <img
+                  src="https://via.placeholder.com/180x360.png?text=Mobile+Mock"
+                  alt="phone mock"
+                  className="rounded-lg shadow-lg"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quick product grid below hero (cards) */}
+      {/* Quick product grid below hero */}
       <section className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map(p => (
-            <Link key={p.slug} to={`/product/${encodeURIComponent(p.slug)}`} className="bg-white rounded-lg shadow p-6 hover:shadow-lg">
+          {products.map((p) => (
+            <Link
+              key={p.slug}
+              to={`/product/${encodeURIComponent(p.slug)}`}
+              className="bg-white rounded-lg shadow p-6 hover:shadow-lg"
+            >
               <h3 className="font-semibold text-lg mb-2 text-gray-800">{p.label}</h3>
-              <p className="text-sm text-gray-600">Quick summary about {p.label} and why it matters.</p>
+              <p className="text-sm text-gray-600">
+                Quick summary about {p.label} and why it matters.
+              </p>
             </Link>
           ))}
         </div>
