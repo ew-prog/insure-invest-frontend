@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 export default function Home() {
   const [zip, setZip] = useState("");
   const [prod, setProd] = useState("unit-trust");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const products = [
     { slug: "unit-trust", label: "Unit Trust" },
@@ -14,12 +18,38 @@ export default function Home() {
     { slug: "medical", label: "Medical" }
   ];
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, product: prod, zip })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert("Lead submitted successfully!");
+        setName(""); setEmail(""); setPhone(""); setZip(""); setProd("unit-trust");
+      } else {
+        alert("Failed to submit lead: " + (data.error || ""));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error. Try again.");
+    }
+
+    setLoading(false);
+  };
+
   return (
     <div className="w-full">
       {/* HERO */}
       <section className="hero-gradient text-white">
         <div className="container mx-auto px-6 py-20 flex flex-col lg:flex-row items-center gap-8">
-          {/* left text & controls */}
+          {/* Left: text + form */}
           <div className="w-full lg:w-1/2">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
               Compare Insurance & Investment Options in Real-Time and Save.
@@ -28,7 +58,7 @@ export default function Home() {
               Invest safely and grow your wealth with professional fund management and trusted insurance partners.
             </p>
 
-            {/* product buttons */}
+            {/* Product buttons */}
             <div className="flex flex-wrap gap-3 mb-6">
               {products.map((p) => (
                 <Link
@@ -41,35 +71,56 @@ export default function Home() {
               ))}
             </div>
 
-            {/* CTA: product select + zip + button */}
-            <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-stretch">
+            {/* Lead form */}
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:items-stretch gap-3">
+              <input
+                type="text"
+                placeholder="Your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="rounded-md p-3 w-full sm:flex-1"
+                required
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="rounded-md p-3 w-full sm:flex-1"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="rounded-md p-3 w-full sm:flex-1"
+                required
+              />
               <select
                 value={prod}
                 onChange={(e) => setProd(e.target.value)}
                 className="rounded-md p-3 w-full sm:w-48 bg-white/10 border border-white/20"
               >
                 {products.map((p) => (
-                  <option key={p.slug} value={p.slug}>
-                    {p.label}
-                  </option>
+                  <option key={p.slug} value={p.slug}>{p.label}</option>
                 ))}
               </select>
-
               <input
                 type="text"
-                placeholder="Enter your ZIP code"
+                placeholder="ZIP Code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
-                className="rounded-md p-3 w-full flex-1"
+                className="rounded-md p-3 w-full sm:flex-1"
               />
-
-              <Link
-                to={`/product/${encodeURIComponent(prod)}`}
+              <button
+                type="submit"
+                disabled={loading}
                 className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-md font-semibold"
               >
-                Compare quotes →
-              </Link>
-            </div>
+                {loading ? "Submitting..." : "Compare quotes →"}
+              </button>
+            </form>
 
             {/* trust / ratings */}
             <div className="mt-6 text-sm text-white/80">
@@ -77,7 +128,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* right hero image */}
+          {/* Right: hero image */}
           <div className="w-full lg:w-1/2 flex justify-center">
             <div className="max-w-md w-full relative">
               <img
@@ -97,19 +148,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick product grid below hero */}
+      {/* Quick product grid */}
       <section className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((p) => (
-            <Link
-              key={p.slug}
-              to={`/product/${encodeURIComponent(p.slug)}`}
-              className="bg-white rounded-lg shadow p-6 hover:shadow-lg"
-            >
+          {products.map(p => (
+            <Link key={p.slug} to={`/product/${encodeURIComponent(p.slug)}`} className="bg-white rounded-lg shadow p-6 hover:shadow-lg">
               <h3 className="font-semibold text-lg mb-2 text-gray-800">{p.label}</h3>
-              <p className="text-sm text-gray-600">
-                Quick summary about {p.label} and why it matters.
-              </p>
+              <p className="text-sm text-gray-600">Quick summary about {p.label} and why it matters.</p>
             </Link>
           ))}
         </div>
